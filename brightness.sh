@@ -1,7 +1,24 @@
 #!/bin/bash
 
-#DRIVER="asus-nb-wmi"
-DRIVER="intel_backlight"
+DRIVER=""
+drivers=(
+  "asus-nb-wmi"
+  "acpi_video0"
+  "intel_backlight"
+)
+
+for item in "${drivers[@]}"
+do
+  if [ -d /sys/class/backlight/${item} ]; then
+    DRIVER=$item
+  fi
+done
+
+if [ -z $DRIVER ]; then
+  echo "Driver not found"
+  exit 1
+fi
+
 CURRENT=`cat /sys/class/backlight/${DRIVER}/brightness`
 MIN=50
 MAX=`cat /sys/class/backlight/${DRIVER}/max_brightness`
