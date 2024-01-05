@@ -1,10 +1,11 @@
 #!/bin/bash
 
+#DRIVER="asus-nb-wmi"
 DRIVER="intel_backlight"
 CURRENT=`cat /sys/class/backlight/${DRIVER}/brightness`
 MIN=50
 MAX=`cat /sys/class/backlight/${DRIVER}/max_brightness`
-STEP=10
+STEP=50
 
 function set_value(){
   VALUE=$1
@@ -26,12 +27,12 @@ case $1 in
 
   -dec)
     CURRENT=$((CURRENT-STEP))
-    set_value $CURRENT
+    sudo $0 -set $CURRENT
     ;;
   
   -inc)
     CURRENT=$((CURRENT+STEP))
-    set_value $CURRENT
+    sudo $0 -set $CURRENT
     ;;
 
   -get)
