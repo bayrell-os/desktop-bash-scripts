@@ -2,19 +2,24 @@
 
 case $1 in
 
-  current_window)
+  current_window|current-window)
     FILE_NAME="Screenshot_`date '+%Y%m%d_%H%M%S'`.png"
-    DIR_NAME="${HOME}/Pictures/Screenshots"
+    DIR_NAME=`xdg-user-dir PICTURES`
+    DIR_NAME="${DIR_NAME}/Screenshots"
     scrot -u -b ${DIR_NAME}/${FILE_NAME} 
     notify-send "Saved to ${FILE_NAME}"
     ;;
   
   screenshot)
-    spectacle -r
+    spectacle -m -b
+    ;;
+
+  region)
+    spectacle -r -b
     ;;
   
   *)
-    echo "Usage: $0 [current_window]"
+    echo "Usage: $0 [screenshot|current_window|region]"
     exit 1
     ;;
 
